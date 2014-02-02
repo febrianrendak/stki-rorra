@@ -2,10 +2,10 @@
 
 include 'koneksi.php';
 include 'perhitungan.php';
-?>
-<head>
-<title>Index Librorum Prohibitum</title>
+?><head>
+<title>Index Librorum Prohibitum | Pustaka</title>
 </head>
+
 
 <link rel="stylesheet" href="style/style.css" type="text/css" />
 
@@ -43,17 +43,17 @@ include 'perhitungan.php';
 <div class="badan"> 
 
 <?php
-print('<form action="index.php" method="post"><input type="text" name="keyword" /> <input name = "Search" type="submit" /></form><hr />');
-			
-$keyword = $_POST["keyword"];
-		
-	if ($keyword)  {
-		$keyword = preproses($keyword);		
-		
-		print('Hasil pencarian pustaka untuk <b>' . $_POST["keyword"]  . '</b>(' . $keyword . '</b></font>) adalah <hr />'); 
-		ambilcache($keyword);
-		//hitungsim($keyword);
-	} 
+	//createindex();
+	//countbobot();
+	//countpanjangvektor(); 
+	echo"<br />";
+	
+	$result = mysql_query("SELECT * FROM buku ORDER BY Id");
+
+	while($row = mysql_fetch_array($result)) {
+		echo $row['Id'] . ". " . $row['Judul'] . "<br />" . $row['Isi'];
+		echo "<hr />";
+	}  
 	
 ?>
 

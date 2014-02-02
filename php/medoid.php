@@ -4,7 +4,7 @@ include 'koneksi.php';
 include 'perhitungan.php';
 ?>
 <head>
-<title>Index Librorum Prohibitum</title>
+<title>Index Librorum Prohibitum | Stemming</title>
 </head>
 
 <link rel="stylesheet" href="style/style.css" type="text/css" />
@@ -17,11 +17,9 @@ include 'perhitungan.php';
 
 <div class="kepaladalam">
 
-
 <a href="index.php" > <div class="logo"> </div> </a>
 
 <a href="index.php" > <div class="judul"></div> </a>
-
 
 <div class="menu"> 
 <ul class="navigation">
@@ -43,17 +41,23 @@ include 'perhitungan.php';
 <div class="badan"> 
 
 <?php
-print('<form action="index.php" method="post"><input type="text" name="keyword" /> <input name = "Search" type="submit" /></form><hr />');
-			
-$keyword = $_POST["keyword"];
-		
-	if ($keyword)  {
-		$keyword = preproses($keyword);		
-		
-		print('Hasil pencarian pustaka untuk <b>' . $_POST["keyword"]  . '</b>(' . $keyword . '</b></font>) adalah <hr />'); 
-		ambilcache($keyword);
-		//hitungsim($keyword);
-	} 
+
+	kmedoid();
+	
+	$x=1;
+	$tampil = mysql_query ("SELECT kelompok FROM kmedoid WHERE jarakQuery!=1 ORDER BY jarakQuery ASC");
+	while ($tampil2 = mysql_fetch_array($tampil)) {
+	$tampil3 = $tampil2['kelompok'];
+		echo "<br>PAGE : " . $x . "<br>";
+		$view = mysql_query("SELECT Judul, Isi FROM buku WHERE kelompok=$tampil3");
+		while ($view2 = mysql_fetch_array ($view)) {
+			$view3 = $view2['Judul'];
+			$view4 = $view2['Isi'];
+			echo "<br>". $view3 . "<br>";
+			echo $view4 . "<br>";
+		}
+		$x++;
+	}
 	
 ?>
 

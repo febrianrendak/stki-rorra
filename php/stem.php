@@ -4,7 +4,7 @@ include 'koneksi.php';
 include 'perhitungan.php';
 ?>
 <head>
-<title>Index Librorum Prohibitum</title>
+<title>Index Librorum Prohibitum | Stemming</title>
 </head>
 
 <link rel="stylesheet" href="style/style.css" type="text/css" />
@@ -17,11 +17,9 @@ include 'perhitungan.php';
 
 <div class="kepaladalam">
 
-
 <a href="index.php" > <div class="logo"> </div> </a>
 
 <a href="index.php" > <div class="judul"></div> </a>
-
 
 <div class="menu"> 
 <ul class="navigation">
@@ -43,17 +41,24 @@ include 'perhitungan.php';
 <div class="badan"> 
 
 <?php
-print('<form action="index.php" method="post"><input type="text" name="keyword" /> <input name = "Search" type="submit" /></form><hr />');
-			
-$keyword = $_POST["keyword"];
-		
-	if ($keyword)  {
-		$keyword = preproses($keyword);		
-		
-		print('Hasil pencarian pustaka untuk <b>' . $_POST["keyword"]  . '</b>(' . $keyword . '</b></font>) adalah <hr />'); 
-		ambilcache($keyword);
-		//hitungsim($keyword);
+mysql_query("TRUNCATE TABLE stemm");
+mysql_query("TRUNCATE TABLE indeks");
+
+$result = mysql_query("SELECT * FROM buku ORDER BY Id");
+
+	while($row = mysql_fetch_array($result)) {
+		echo $row['Id'].". " . $row['Judul'] . "<br />" . $row['Isi'] ."<br>";
+		$proses1 = $row['Isi'];
+		$proses0 = $row['Id'];
+		$proses3 = 0;
+	$proses2=preproses($proses1,$proses0);
 	} 
+	
+	countbobot();
+	countpanjangvektor(); 
+	countpanjangunit();
+	countPQ();
+	cosine ();
 	
 ?>
 
